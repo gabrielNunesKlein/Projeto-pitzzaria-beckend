@@ -6,8 +6,30 @@ class ListOrderService {
 
         const orders = await prismaClient.order.findMany({
             where: {
-                draft: false,
-                status: false
+                OR: 
+                [
+                    {
+                        status_payment: "PENDENTE"
+                    },
+
+                    {
+                        status_payment: "ATIVA"
+                    },
+/*
+                    {
+                        draft: false,
+                    },
+*/
+                    {
+                        status: false,
+                    }
+
+                ],
+                AND: [
+                    {
+                        draft: false
+                    }
+                ]
             },
             orderBy: {
                 created_at: 'desc'

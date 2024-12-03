@@ -19,6 +19,11 @@ import { ListOrderController } from "./controllers/order/ListOrderController";
 import { DetailOrderController } from "./controllers/order/DetailOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
 
+import { AuthPaymentController } from "./controllers/paymentPIX/AuthPaymentController";
+import { GeneratedPaymentController } from "./controllers/paymentPIX/GeneratedPaymentController";
+import { GetPaymentController } from "./controllers/paymentPIX/GetPaymentController";
+import { PadPaymentController } from "./controllers/order/PadPaymentController";
+
 const router = Router();
 
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -48,5 +53,14 @@ router.get('/orders', isAuthenticated, new ListOrderController().handle);
 router.get('/oder/detail', isAuthenticated, new DetailOrderController().handle);
 
 router.put('/order/finish', isAuthenticated, new FinishOrderController().handle);
+
+router.put('/order/PadPayment/:order_id', isAuthenticated, new PadPaymentController().handle);
+
+// payment route
+router.post('/paymentPix', new AuthPaymentController().handle);
+
+router.put('/generatedPayment', new GeneratedPaymentController().handle);
+
+router.get('/getPayment/:token/:txId/:order_id', new GetPaymentController().handle);
 
 export { router }
